@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marco Julius Andreas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode {
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --text-tertiary: #999;
+            --border-color: #e5e5e5;
+            --border-light: #f0f0f0;
+            --hover-border: #666;
+            --button-bg: #1a1a1a;
+            --button-text: #fafafa;
+            --button-border: #d0d0d0;
+        }
+
+        body.dark-mode {
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0a0;
+            --text-tertiary: #707070;
+            --border-color: #2a2a2a;
+            --border-light: #252525;
+            --hover-border: #a0a0a0;
+            --button-bg: #e8e8e8;
+            --button-text: #0f0f0f;
+            --button-border: #3a3a3a;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 32px;
+            right: 32px;
+            z-index: 1000;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--hover-border);
+            transform: translateY(-2px);
+        }
+
+        .clock-widget {
+            position: fixed;
+            top: 32px;
+            left: 32px;
+            z-index: 1000;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .clock-time {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .clock-date {
+            font-weight: 400;
+        }
+
+        header {
+            padding: 100px 0 60px;
+            border-bottom: 1px solid var(--border-color);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .header-content {
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 42px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        .about {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out 0.2s forwards;
+        }
+
+        .about p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            max-width: 580px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .quote-section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out 0.3s forwards;
+        }
+
+        .quote-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .quote-text {
+            font-family: 'Crimson Pro', serif;
+            font-size: 20px;
+            font-style: italic;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .quote-author {
+            font-size: 14px;
+            color: var(--text-tertiary);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        section.visible {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .section-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+        }
+
+        .skills-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .skill-item:last-child {
+            border-bottom: none;
+        }
+
+        .skill-name {
+            font-size: 16px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .skill-level {
+            font-size: 14px;
+            color: var(--text-tertiary);
+            font-weight: 400;
+        }
+
+        .experience-list {
+            display: grid;
+            gap: 28px;
+        }
+
+        .experience-item {
+            padding-left: 20px;
+            border-left: 2px solid var(--border-color);
+            transition: border-color 0.2s ease;
+        }
+
+        .experience-item:hover {
+            border-left-color: var(--hover-border);
+        }
+
+        .experience-item h3 {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            letter-spacing: -0.2px;
+        }
+
+        .experience-note {
+            font-size: 14px;
+            color: var(--text-tertiary);
+            font-style: italic;
+        }
+
+        .experience-current {
+            font-size: 13px;
+            color: var(--text-primary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 6px;
+        }
+
+        .languages-list {
+            display: grid;
+            gap: 24px;
+        }
+
+        .language-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        .language-name {
+            font-size: 16px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .language-level {
+            font-size: 13px;
+            color: var(--text-tertiary);
+            font-weight: 400;
+            text-align: right;
+        }
+
+        .hobbies-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .hobby-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .hobby-item:last-child {
+            border-bottom: none;
+        }
+
+        .hobby-name {
+            font-size: 16px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .hobby-level {
+            font-size: 14px;
+            color: var(--text-tertiary);
+            font-weight: 400;
+        }
+
+        .contact {
+            padding: 60px 0 80px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .contact.visible {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            font-size: 15px;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 10px 24px;
+            border: 1px solid var(--button-border);
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .contact-link:hover {
+            background: var(--button-bg);
+            color: var(--button-text);
+            border-color: var(--button-bg);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .clock-widget {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin: 16px 24px 0;
+                display: inline-block;
+            }
+
+            .theme-toggle {
+                top: 16px;
+                right: 16px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            header {
+                padding: 80px 0 40px;
+            }
+
+            section {
+                padding: 40px 0;
+            }
+
+            .about p {
+                font-size: 16px;
+            }
+
+            .quote-text {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <div class="clock-widget">
+        <div class="clock-time" id="time">--:--:--</div>
+        <div class="clock-date" id="date">Loading...</div>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle">
+        <span id="themeIcon">🌙</span>
+        <span id="themeText">Dark</span>
+    </button>
+
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Marco Julius Andreas</h1>
+                <p class="subtitle">Student in SMK 1 Pematangsiantar</p>
+            </div>
+        </header>
+
+        <section class="about">
+            <p>A 17 Years Old Student (07-26-2008) that loves Religion, Science and Technology. God bless me, you, us.</p>
+        </section>
+
+        <section class="quote-section">
+            <div class="quote-content">
+                <p class="quote-text">"Education is an ornament in prosperity and a refuge in adversity."</p>
+                <p class="quote-author">— Aristotle of Stagira</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Skills</h2>
+            <div class="skills-list">
+                <div class="skill-item">
+                    <span class="skill-name">SQLite3 Database</span>
+                    <span class="skill-level">30%</span>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Backend-Frontend Connection</span>
+                    <span class="skill-level">27%</span>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Web Design</span>
+                    <span class="skill-level">24%</span>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Media Literacy</span>
+                    <span class="skill-level">19%</span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Languages</h2>
+            <div class="languages-list">
+                <div class="language-item">
+                    <span class="language-name">Indonesian</span>
+                    <span class="language-level">Mother Language</span>
+                </div>
+                <div class="language-item">
+                    <span class="language-name">English</span>
+                    <span class="language-level">Second Language</span>
+                </div>
+                <div class="language-item">
+                    <span class="language-name">Bataknese</span>
+                    <span class="language-level">Tribal Language / Third Language</span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Hobbies</h2>
+            <div class="hobbies-list">
+                <div class="hobby-item">
+                    <span class="hobby-name">Reading</span>
+                    <span class="hobby-level">60%</span>
+                </div>
+                <div class="hobby-item">
+                    <span class="hobby-name">Writing</span>
+                    <span class="hobby-level">30%</span>
+                </div>
+                <div class="hobby-item">
+                    <span class="hobby-name">Chess</span>
+                    <span class="hobby-level">10%</span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Education</h2>
+            <div class="experience-list">
+                <div class="experience-item">
+                    <h3>SDN 122335 Pematangsiantar</h3>
+                    <p class="experience-note">Now SDN 122332 Pematangsiantar</p>
+                </div>
+                <div class="experience-item">
+                    <h3>SMP Negeri 5 Pematangsiantar</h3>
+                </div>
+                <div class="experience-item">
+                    <h3>SMK Negeri 1 Pematangsiantar</h3>
+                    <p class="experience-current">Current</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-links">
+                <a href="https://wa.me/6281274945189" class="contact-link" target="_blank">WhatsApp</a>
+                <a href="mailto:marcobaxx3@gmail.com" class="contact-link">Email</a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 Marco Julius Andreas</p>
+        </div>
+    </footer>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            
+            const options = {
+                timeZone: 'Asia/Jakarta',
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            
+            const timeString = now.toLocaleTimeString('en-US', options) + ' WIB';
+            
+            const dateOptions = {
+                timeZone: 'Asia/Jakarta',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            
+            const dateString = now.toLocaleDateString('en-US', dateOptions);
+            
+            document.getElementById('time').textContent = timeString;
+            document.getElementById('date').textContent = dateString;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        const body = document.body;
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.className = savedTheme + '-mode';
+        updateThemeButton(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.classList.contains('light-mode') ? 'light' : 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            body.className = newTheme + '-mode';
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        });
+
+        function updateThemeButton(theme) {
+            if (theme === 'dark') {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark';
+            }
+        }
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        observer.observe(document.querySelector('.contact'));
+    </script>
+</body>
+</html>
